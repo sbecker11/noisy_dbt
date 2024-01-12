@@ -1,0 +1,45 @@
+# dbt_project.yml
+
+name: my_dbt_project
+version: 2
+
+profile: my_database_profile  # Specify the name of your database profile defined in profiles.yml
+
+# Configurations for the target data warehouse
+config:
+  send_anonymous_usage_stats: true  # Set to true if you want to send anonymous usage statistics to DBT Cloud or Fishtown Analytics
+
+# Directories where DBT should look for source files
+source-paths: ["models", "data"]
+
+# Set default schemas for models and seeds
+models-not-prefixed: false
+models:
+  my_project:
+    +customers_raw:
+      schema: raw_data
+    +products_raw:
+      schema: raw_data
+    +orders_raw:
+      schema: raw_data
+
+# Specify the seed configurations (if applicable)
+seeds:
+  - name: my_seed_data
+    schema: raw_data
+    file_format: csv
+    file_path: data/my_seed_data.csv
+
+# Enable data tests
+on-run-start:
+  - dbt test --models my_project
+
+# Specify custom data testing configurations (if needed)
+test-paths: ["tests"]
+
+# Set the maximum number of threads (adjust according to your system's capabilities)
+threads: 4
+
+# Configuration for DBT Cloud (if applicable)
+cloud_id: my_cloud_id
+cloud_api_key: my_cloud_api_key

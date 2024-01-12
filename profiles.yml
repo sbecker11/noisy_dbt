@@ -1,0 +1,10 @@
+my_database_profile:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: your-database-host
+      port: your-database-port
+      user: your-username
+      pass: your-password
+      dbname: your-database-name
